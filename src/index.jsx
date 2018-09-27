@@ -1,4 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-render(<div>Play Nine</div>, document.getElementById('root'));
+import Game from './components/Game';
+
+const App = () => <Game />;
+
+render(<App />, document.getElementById('root'));
