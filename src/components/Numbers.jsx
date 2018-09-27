@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import range from '../helpers/range';
 
 export const Number = styled.span`
@@ -11,6 +12,16 @@ export const Number = styled.span`
   border-radius: 50%;
   cursor: pointer;
   user-select: none;
+
+  &.selected {
+    background-color: #CCC;
+    cursor: not-allowed;
+  }
+
+  &.used {
+    background-color: #ADA;
+    cursor: not-allowed;
+  }
 `;
 
 const Card = styled.div`
@@ -20,12 +31,25 @@ const Card = styled.div`
   box-shadow: 0 5px 40px 4px rgba(0,0,0,0.1);
 `;
 
-const Numbers = () => (
+const Numbers = ({ selectNumber, selectedNumbers }) => (
   <Card className="card text-center">
     <div>
-      { range(1, 9).map(number => <Number key={number}>{number}</Number>) }
+      { range(1, 9).map(number => (
+        <Number
+          key={number}
+          onClick={() => selectNumber(number)}
+          className={selectedNumbers.includes(number) && 'selected'}
+        >
+          {number}
+        </Number>))
+      }
     </div>
   </Card>
 );
+
+Numbers.propTypes = {
+  selectNumber: PropTypes.func.isRequired,
+  selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
 
 export default Numbers;
