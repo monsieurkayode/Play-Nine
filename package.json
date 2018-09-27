@@ -1,0 +1,43 @@
+{
+  "name": "play-nine",
+  "version": "1.0.0",
+  "description": "A simple mathematics skills game for kids",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "build": "rm -rf dist && webpack"
+  },
+  "repository": "git+https://github.com/monsieurkayode/Play-Nine.git",
+  "keywords": [
+    "React"
+  ],
+  "author": "Kayode Adeola",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/monsieurkayode/Play-Nine/issues"
+  },
+  "homepage": "https://github.com/monsieurkayode/Play-Nine#readme",
+  "private": false,
+  "dependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "styled-components": "^3.4.9",
+    "webpack": "^4.20.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "7",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "4.19.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.9"
+  }
+}
