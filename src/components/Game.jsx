@@ -39,8 +39,12 @@ const Header = styled.header`
 `;
 
 class Game extends Component {
+  static randomNumber = () => Math.floor(Math.random() * 9) + 1;
+
   state = {
     selectedNumbers: [],
+    randomNumberOfStars: Game.randomNumber(),
+    check: null,
   }
 
   selectNumber = (clickedNumber) => {
@@ -48,20 +52,52 @@ class Game extends Component {
     if (selectedNumbers.includes(clickedNumber)) { return; }
 
     this.setState(prevState => ({
+      check: null,
       selectedNumbers: prevState.selectedNumbers.concat(clickedNumber),
     }));
   }
 
   removeNumber = (clickedNumber) => {
     this.setState(({ selectedNumbers }) => ({
+      check: null,
       selectedNumbers: selectedNumbers.filter(
         number => number !== clickedNumber
       )
     }));
   }
 
+  checkAnswer = () => {
+    this.setState(({
+      randomNumberOfStars,
+      selectedNumbers
+    }) => ({
+      check: randomNumberOfStars === selectedNumbers.reduce((acc, n) => acc + n)
+    }));
+  }
+
+  buttonProps = () => {
+    const { check } = this.state;
+    switch (check) {
+      case true:
+        return {
+          buttonText: <i className="fa fa-check" />,
+          buttonClass: 'success'
+        };
+      case false:
+        return {
+          buttonText: <i className="fa fa-times" />,
+          buttonClass: 'danger'
+        };
+      default:
+        return {
+          buttonText: '=',
+          buttonClass: 'primary'
+        };
+    }
+  }
+
   render() {
-    const { selectedNumbers } = this.state;
+    const { selectedNumbers, randomNumberOfStars } = this.state;
     return (
       <Wrapper>
         <Header>
@@ -73,8 +109,12 @@ class Game extends Component {
         </Header>
         <Container className="container">
           <div className="row">
-            <Stars />
-            <Button />
+            <Stars numberOfStars={randomNumberOfStars} />
+            <Button
+              selectedNumbers={selectedNumbers}
+              buttonProps={this.buttonProps}
+              checkAnswer={this.checkAnswer}
+            />
             <Answers
               selectedNumbers={selectedNumbers}
               removeNumber={this.removeNumber}

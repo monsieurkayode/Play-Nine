@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import range from '../helpers/range';
 
 const Star = styled.i`
   margin: 0.5rem;
@@ -7,15 +9,15 @@ const Star = styled.i`
   color: #4E515D;
 `;
 
-const Stars = () => (
+const Stars = ({ numberOfStars }) => (
   <div className="col-5">
-    <Star className="fa fa-star" />
-    <Star className="fa fa-star" />
-    <Star className="fa fa-star" />
-    <Star className="fa fa-star" />
-    <Star className="fa fa-star" />
-    <Star className="fa fa-star" />
+    {range(1, numberOfStars)
+      .map(number => <Star key={number} className="fa fa-star" />)}
   </div>
 );
+
+Stars.propTypes = {
+  numberOfStars: PropTypes.number.isRequired,
+};
 
 export default Stars;
