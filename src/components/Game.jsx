@@ -52,6 +52,14 @@ class Game extends Component {
     }));
   }
 
+  removeNumber = (clickedNumber) => {
+    this.setState(({ selectedNumbers }) => ({
+      selectedNumbers: selectedNumbers.filter(
+        number => number !== clickedNumber
+      )
+    }));
+  }
+
   render() {
     const { selectedNumbers } = this.state;
     return (
@@ -69,6 +77,7 @@ class Game extends Component {
             <Button />
             <Answers
               selectedNumbers={selectedNumbers}
+              removeNumber={this.removeNumber}
             />
           </div>
           <br />
