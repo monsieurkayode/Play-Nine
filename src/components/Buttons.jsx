@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+const Button = styled.button`
   &:disabled {
     cursor: not-allowed;
   }
@@ -21,17 +21,17 @@ const Buttons = ({
 
   return (
     <div className="col-2 text-center">
-      <StyledButton
+      <Button
         type="button"
         className={`btn btn-lg btn-${buttonClass}`}
         onClick={check ? acceptAnswer : checkAnswer}
         disabled={selectedNumbers.length === 0}
       >
         {buttonText}
-      </StyledButton>
+      </Button>
       <br />
       <br />
-      <StyledButton
+      <Button
         type="button"
         onClick={redraw}
         className="btn btn-sm btn-warning text-white"
@@ -40,7 +40,7 @@ const Buttons = ({
         <i className="fa fa-sm fa-sync">
           {` ${redraws}`}
         </i>
-      </StyledButton>
+      </Button>
     </div>
   );
 };

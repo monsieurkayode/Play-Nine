@@ -5,6 +5,7 @@ import Buttons from './Buttons';
 import Answers from './Answers';
 import Numbers from './Numbers';
 import DoneFrame from './DoneFrame';
+import Onboarding from './Onboarding';
 
 import possibleCombinationSum from '../helpers/possibleCombinationSum';
 import range from '../helpers/range';
@@ -15,6 +16,47 @@ const Wrapper = styled.div`
   background: linear-gradient(#CEDDE8, #84A3BD) fixed;
   height: 100vh;
   font-family: 'Josefin Sans', sans-serif;
+
+  .overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.2);
+    z-index: 2;
+  
+    .popup {
+      background: #FFF;
+      width: 35%;
+      min-width: 400px;
+      margin: 8% auto;
+      overflow: auto;
+  
+      header {
+        background: #6A96D8;
+        text-align: center;
+        color: #FFF;
+  
+        h5 {
+          padding: 0.5em 1em;
+          margin: 0;
+  
+          span {
+            float: right;
+            cursor: pointer;
+          }
+        }
+      }
+  
+      .content {
+        padding: 0.5em 1em;
+        text-align: center;
+      }
+    }
+  }
+
+  input {
+    display: none;
+  }
 `;
 const Container = styled.div`
   flex: 1;
@@ -26,18 +68,33 @@ const Container = styled.div`
 const Header = styled.header`
   background: #6A96D8;
   color: #fff;
-  height: 70px;
   box-shadow: 0 2px 20px 4px rgba(0,0,0,0.2);
 
-  h3 {
-    padding: 0.7em 4em;
+  .container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25em 0;
 
-    span {
-      text-decoration: underline;
+    h3 {
+      margin: 0;
+      span {
+        text-decoration: underline;
+      }
+  
+      sup, span {
+        color: #FFB2C1;
+      }
     }
 
-    sup, span {
-      color: #FFB2C1;
+    .link {
+      margin-left: 40px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 `;
@@ -54,6 +111,7 @@ class Game extends Component {
     check: null,
     redraws: 5,
     doneStatus: null,
+    displayModal: false,
   });
 
   state = Game.initialState();
@@ -149,6 +207,10 @@ class Game extends Component {
     }
   }
 
+  showModal = () => {
+    this.setState(({ displayModal }) => ({ displayModal: !displayModal }));
+  }
+
   render() {
     const {
       selectedNumbers,
@@ -156,16 +218,28 @@ class Game extends Component {
       usedNumbers,
       check,
       redraws,
-      doneStatus
+      doneStatus,
+      displayModal,
     } = this.state;
     return (
       <Wrapper>
+        {displayModal && (
+          <Onboarding
+            showModal={this.showModal}
+            displayModal={displayModal}
+          />)}
         <Header>
-          <h3>
-            <span>Play</span>
-            Nine
-            <sup>9</sup>
-          </h3>
+          <div className="container">
+            <h3>
+              <span>Play</span>
+              Nine
+              <sup>9</sup>
+            </h3>
+            <div>
+              <span onClick={this.showModal} className="link">How To Play</span>
+              <span className="link">Leaderboard</span>
+            </div>
+          </div>
         </Header>
         <Container className="container">
           <div className="row">

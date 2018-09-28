@@ -24,7 +24,7 @@ export const Number = styled.span`
   }
 `;
 
-const Card = styled.div`
+export const Card = styled.div`
   background: #fff;
   border-radius: 5px;
   padding: 20px;
