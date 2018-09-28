@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Stars from './Stars';
-import Button from './Button';
+import Buttons from './Buttons';
 import Answers from './Answers';
 import Numbers from './Numbers';
+import DoneFrame from './DoneFrame';
+
+import possibleCombinationSum from '../helpers/possibleCombinationSum';
+import range from '../helpers/range';
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,13 +45,20 @@ const Header = styled.header`
 class Game extends Component {
   static randomNumber = () => Math.floor(Math.random() * 9) + 1;
 
-  state = {
+  static numberList = () => range(1, 9);
+
+  static initialState = () => ({
     selectedNumbers: [],
     randomNumberOfStars: Game.randomNumber(),
     usedNumbers: [],
     check: null,
     redraws: 5,
-  }
+    doneStatus: null,
+  });
+
+  state = Game.initialState();
+
+  resetGame = () => this.setState(Game.initialState());
 
   selectNumber = (clickedNumber) => {
     const { selectedNumbers, usedNumbers } = this.state;
@@ -84,7 +95,7 @@ class Game extends Component {
       usedNumbers: usedNumbers.concat(selectedNumbers),
       selectedNumbers: [],
       randomNumberOfStars: Game.randomNumber()
-    }));
+    }), this.updateDoneStatus);
   }
 
   redraw = () => {
@@ -95,7 +106,26 @@ class Game extends Component {
       check: null,
       randomNumberOfStars: Game.randomNumber(),
       redraws: prevState.redraws - 1
-    }));
+    }), this.updateDoneStatus);
+  }
+
+  possibleSolutions = ({ randomNumberOfStars, usedNumbers }) => {
+    const possibleNumbers = Game.numberList().filter(
+      number => !usedNumbers.includes(number)
+    );
+
+    return possibleCombinationSum(possibleNumbers, randomNumberOfStars);
+  }
+
+  updateDoneStatus = () => {
+    this.setState((prevState) => {
+      if (prevState.usedNumbers.length === 9) {
+        return { doneStatus: 'Nicely Done! :-)' };
+      }
+      if (prevState.redraws === 0 && !this.possibleSolutions(prevState)) {
+        return { doneStatus: 'Game Over! :-(' };
+      }
+    });
   }
 
   buttonProps = () => {
@@ -125,7 +155,8 @@ class Game extends Component {
       randomNumberOfStars,
       usedNumbers,
       check,
-      redraws
+      redraws,
+      doneStatus
     } = this.state;
     return (
       <Wrapper>
@@ -138,8 +169,9 @@ class Game extends Component {
         </Header>
         <Container className="container">
           <div className="row">
-            <Stars numberOfStars={randomNumberOfStars} />
-            <Button
+            {!doneStatus && <Stars numberOfStars={randomNumberOfStars} />}
+            {!doneStatus && (
+            <Buttons
               selectedNumbers={selectedNumbers}
               buttonProps={this.buttonProps}
               checkAnswer={this.checkAnswer}
@@ -148,17 +180,22 @@ class Game extends Component {
               redraw={this.redraw}
               redraws={redraws}
             />
+            )}
             <Answers
               selectedNumbers={selectedNumbers}
               removeNumber={this.removeNumber}
             />
           </div>
           <br />
-          <Numbers
-            selectNumber={this.selectNumber}
-            selectedNumbers={selectedNumbers}
-            usedNumbers={usedNumbers}
-          />
+          {doneStatus ? (
+            <DoneFrame doneStatus={doneStatus} resetGame={this.resetGame} />
+          ) : (
+            <Numbers
+              selectNumber={this.selectNumber}
+              selectedNumbers={selectedNumbers}
+              usedNumbers={usedNumbers}
+            />)
+          }
         </Container>
       </Wrapper>
     );
