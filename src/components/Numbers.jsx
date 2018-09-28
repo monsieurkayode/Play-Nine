@@ -31,14 +31,19 @@ const Card = styled.div`
   box-shadow: 0 5px 40px 4px rgba(0,0,0,0.1);
 `;
 
-const Numbers = ({ selectNumber, selectedNumbers }) => (
+const Numbers = ({
+  selectNumber,
+  selectedNumbers,
+  usedNumbers
+}) => (
   <Card className="card text-center">
     <div>
       { range(1, 9).map(number => (
         <Number
           key={number}
           onClick={() => selectNumber(number)}
-          className={selectedNumbers.includes(number) && 'selected'}
+          className={`${selectedNumbers.includes(number) && 'selected'}
+          ${usedNumbers.includes(number) && 'used'}`}
         >
           {number}
         </Number>))
@@ -50,6 +55,7 @@ const Numbers = ({ selectNumber, selectedNumbers }) => (
 Numbers.propTypes = {
   selectNumber: PropTypes.func.isRequired,
   selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+  usedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 export default Numbers;

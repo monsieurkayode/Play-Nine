@@ -8,7 +8,13 @@ const AnswerButton = styled.button`
   }
 `;
 
-const Button = ({ selectedNumbers, checkAnswer, buttonProps }) => {
+const Button = ({
+  selectedNumbers,
+  checkAnswer,
+  acceptAnswer,
+  buttonProps,
+  check
+}) => {
   const { buttonText, buttonClass } = buttonProps();
 
   return (
@@ -16,7 +22,7 @@ const Button = ({ selectedNumbers, checkAnswer, buttonProps }) => {
       <AnswerButton
         type="button"
         className={`btn btn-lg btn-${buttonClass}`}
-        onClick={checkAnswer}
+        onClick={check ? acceptAnswer : checkAnswer}
         disabled={selectedNumbers.length === 0}
       >
         {buttonText}
@@ -33,7 +39,9 @@ const Button = ({ selectedNumbers, checkAnswer, buttonProps }) => {
 Button.propTypes = {
   selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
   checkAnswer: PropTypes.func.isRequired,
+  acceptAnswer: PropTypes.func.isRequired,
   buttonProps: PropTypes.func.isRequired,
+  check: PropTypes.oneOf([PropTypes.bool, PropTypes.object]).isRequired
 };
 
 export default Button;
