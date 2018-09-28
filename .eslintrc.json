@@ -22,6 +22,6 @@
       "node": true
     },
     "rules": {
-      
+      "comma-dangle": "off"
     }
 }
