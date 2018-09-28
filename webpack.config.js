@@ -10,7 +10,6 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 module.exports = {
   context: __dirname,
   mode: 'production',
-  devtool: 'source-map',
   entry: [
     resolve(__dirname, './src/index'),
   ],
