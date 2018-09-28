@@ -46,6 +46,7 @@ class Game extends Component {
     randomNumberOfStars: Game.randomNumber(),
     usedNumbers: [],
     check: null,
+    redraws: 5,
   }
 
   selectNumber = (clickedNumber) => {
@@ -86,6 +87,17 @@ class Game extends Component {
     }));
   }
 
+  redraw = () => {
+    const { redraws } = this.state;
+    if (redraws === 0) { return; }
+
+    this.setState(prevState => ({
+      check: null,
+      randomNumberOfStars: Game.randomNumber(),
+      redraws: prevState.redraws - 1
+    }));
+  }
+
   buttonProps = () => {
     const { check } = this.state;
     switch (check) {
@@ -112,7 +124,8 @@ class Game extends Component {
       selectedNumbers,
       randomNumberOfStars,
       usedNumbers,
-      check
+      check,
+      redraws
     } = this.state;
     return (
       <Wrapper>
@@ -132,6 +145,8 @@ class Game extends Component {
               checkAnswer={this.checkAnswer}
               acceptAnswer={this.acceptAnswer}
               check={check}
+              redraw={this.redraw}
+              redraws={redraws}
             />
             <Answers
               selectedNumbers={selectedNumbers}
