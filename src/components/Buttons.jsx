@@ -8,7 +8,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({
+const Buttons = ({
   selectedNumbers,
   checkAnswer,
   acceptAnswer,
@@ -45,14 +45,21 @@ const Button = ({
   );
 };
 
-Button.propTypes = {
+Buttons.defaultProps = {
+  check: null
+};
+
+Buttons.propTypes = {
   selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
   checkAnswer: PropTypes.func.isRequired,
   acceptAnswer: PropTypes.func.isRequired,
   redraw: PropTypes.func.isRequired,
   redraws: PropTypes.number.isRequired,
   buttonProps: PropTypes.func.isRequired,
-  check: PropTypes.oneOf([PropTypes.bool, PropTypes.object]).isRequired
+  check: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object
+  ])
 };
 
-export default Button;
+export default Buttons;
